@@ -13,14 +13,71 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Stack(
         children: [
-          Text('HOLA MUNDO!!!!!!!!!!!!!!!!!!!!!!!!!!'),
-          Text(
-            'HOLA MUNDO 2!!!!!!!!!!!!!!!!!!!!!!!!!!',
-            style: TextStyle(
-              //color: Colors.brown
-              color: Color(0xFF122BCB),
-              fontSize: 20.5,
-              fontWeight: FontWeight.w700
+          Padding(
+            padding: EdgeInsets.all(50.0),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(15.0),
+                  color: Colors.grey,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: Text('Row1'),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Icon(Icons.edit),
+                      ),
+                      Expanded(
+                        flex:2,
+                        child: Icon(Icons.delete),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15.0,),
+                Container(
+                  padding: EdgeInsets.all(15.0),
+                  color: Colors.grey,
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 6,
+                                child: Container(height: 50, width: 50, color: Colors.red,),
+                              ),
+                              Expanded(
+                                  flex: 6,
+                                  child: Column(
+                                    ///Toma el tamaño de los widgets hijos
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Hola'),
+                                      Text('mundo')
+                                    ],
+                                  )
+                              )
+
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(flex: 2, child: Text('#'),),
+                              Expanded(flex: 5, child: Icon(Icons.edit),),
+                              Expanded(flex: 5,child: Icon(Icons.delete),),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
           )
         ],
