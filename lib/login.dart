@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:primera_app_8_9/home.dart';
 
-/// PARA CONTENER O AYUDAR A LOS CAMBIOS DE ESTADO
+///Clase de creación de widgets con cambios de estado
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -9,80 +10,167 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  ///Apartado para crear variables
-  final usuario = TextEditingController();
-  TextEditingController pass = TextEditingController();
+  ///Variables para capturar el valor que escriba el usuario en los inputs
+  TextEditingController user = TextEditingController();
+  final pass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    /// Widget principal para crear una vista completa
     return Scaffold(
-      ///STACK: Constructor que cada widget que usemos los colocara uno ensima de otro
+      ///Construye todos los widgets hijos/internos uno sobre otro
       body: Stack(
         children: [
           Padding(
-              padding: EdgeInsets.only(top: 100, left: 50, bottom: 10, right: 20),
-              child: Container(
-                //color: Colors.grey,
-                child:  Column(
-                  mainAxisSize: MainAxisSize.min, ///Toma el tamaño de sus hijos widgets
-                  children: [
-                    const Text(
-                      'INICIAR SESIÓN',
-                      style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w500),
+            padding: EdgeInsets.all(50.0),
+            child: Container(
+              height: 800, ///Agrega un tamaño al contenedor
+              ///Se puede agregar padding como atributo del contenedor
+              padding: EdgeInsets.all(20.0),
+              //color: Color(0xFFb9a8c), ///Valor hexadecimal del color ------->
+              ///quita las esquina rectangulares por bordes redondeados          Al tener estos dos atributos
+              decoration: BoxDecoration(      ///                                juntos, marcará un error por
+                borderRadius: BorderRadius.circular(40),    ///                  incompatibilidad de atributos
+                color: Colors.black54, /// ------------------------------------>
+              ),
+              child: Column(
+                ///Atributo de Column para indicar el tamaño que debe tener por
+                ///el espacio que ocupan sus hijos widgets
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'LOGIN',
+                    style: TextStyle(
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.deepPurple
                     ),
-                    const SizedBox(height: 50.0,),
-                    const Text('Usuario:'),
-                    TextFormField(
-                      controller: usuario,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                          hintText: 'Agrega tu usuario', ///Texto de apoyo en el interior del input
-                          prefixIcon: Icon(Icons.verified_user), ///Agrega un icon al interior del input
-                          fillColor: Colors.red,
-                          border: OutlineInputBorder( ///Bordes para el input
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: const BorderSide(
-                                //color: Colors.red,
-                                  width: 5,
-                                  style: BorderStyle.solid
-                              )
-                          )
+                  ),
+                  const SizedBox(height: 20.0,),
+                  const Text('Usuario/correo/telefono:'),
+                  TextFormField(
+                    controller: user,
+                    ///Crear un recuadro más estilizado
+                    decoration: InputDecoration(
+                      ///Agregar un recuadro con bordes redondeado
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            width: 1,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        ///Agregar color interno del input
+                        filled: true,
+                        fillColor: Colors.white,
+                        ///Agregar un icono dentro del input
+                        prefixIcon: const Icon(Icons.person),
+                        ///Agregar texto de ayuda dentro del input
+                        hintText: 'Arega tu usuario'
+                    ),
+                  ),
+                  const Text('Contraseña:'),
+                  TextFormField(
+                    controller: pass,
+                    obscureText: true, ///Ocultar el texto normal
+                    ///Crear un recuadro más estilizado
+                    decoration: InputDecoration(
+                      ///Agregar un recuadro con bordes redondeado
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            width: 1,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        ///Agregar color interno del input
+                        filled: true,
+                        fillColor: Colors.white,
+                        ///Agregar un icono dentro del input
+                        prefixIcon: const Icon(Icons.password),
+                        ///Agregar texto de ayuda dentro del input
+                        hintText: 'Arega tu contraseña'
+                    ),
+                  ),
+                  const SizedBox(height: 20.0,),
+                  ElevatedButton(
+                    ///Atributo para agregar estilo al botón
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue, ///Color al botón
+                        ///Agrega borde redondeado en las esquinas
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        fixedSize: Size(200,40), ///Tamaño que tendrá el botón
                       ),
+                      onPressed: () {
+                        setState(() {
+                          ///Detectar los cambios de estado de nuestra vista actualsetState(() {
+                          print('Usuario: ${user.text}');
+                          print("Contraseña: " + pass.text);
+
+                          //SOLO DE INGRESAR CON EL USUARIO USER01 Y PASS01
+                          if(user.text == "USER01" && pass.text == "PASS01"){
+                            print('Ingreso correctamente');
+                            showSnackBar('Ingreso correctamente', 10);
+
+                            ///ARCHIVO DE RUTAS
+                            ///"/"
+                            ///"/registro" 'o "registro"
+                            ///"/home" 'o "main"
+                            ///MANDAR A LLAMAR A LA VISTA/CLASE DIRECTAMENTE
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => Home()));
+
+                            ///Login
+                            ///Home
+                            ///Perfil
+                          } else {
+                            print('Usuario y/o Contraseña incorrectos');
+                            showSnackBar('Usuario y/o Contraseña incorrectos', 20);
+                          }
+                        });
+                      }, ///Función interna
+                    child: const Row(
+                      ///Alinear horizontamente
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      ///Vertical
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.verified_user),
+                        Text('INGRESAR'),
+                      ],
                     ),
-                    Text('Contraseña:'),
-                    TextFormField(
-                      controller: pass,
-                      obscureText: true,
-                    ),
-                    const SizedBox(height: 150.0,),
-                    ElevatedButton(
-                      onPressed: (){
-                        validaUser();
-                      }, ///(){} = Función interna
-                      child: Text('INGRESAR'),
-                    )
-                    //Icon(Icons.home),
-                  ],
-                ),
-              )
-          )
+                  ),
+                  Container(
+                    width: 20,
+                    height: 20,
+                    color: Colors.red,
+                  ) ,/// transparente o sin tamaño
+                  //Icon(Icons.home)
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  void validaUser() {
-    ///Detectar y actualizar el estado de la vista actual
-    setState(() {
-      print('Usuario: ${usuario.text}');
-      print("Contraseña: "+pass.text);
-      //solo puede ingresar si escribi user = User01 y pass = Pass02
-      //un mensaje si es valido o incorrecto
-      if(usuario.text == 'User01' && pass.text == 'Pass02'){
-        print('Usuario valido');
-      } else {
-        print('usuario invalido');
-      }
-    });
+  ///AREA PARA LAS FUNCIONES
+  void showSnackBar(String texto, int duracion) {
+    final snackBar = SnackBar(
+      content: Text(texto),
+      duration: Duration(seconds: duracion),
+      action: SnackBarAction(
+        onPressed: () {
+          // Cualquier acción al dar clic sobre el widget
+        },
+        label: 'Cerrar',
+      ),
+    );
+
+    // Muestra el SnackBar usando ScaffoldMessenger
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
