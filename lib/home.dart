@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:primera_app_8_9/utils/constants.dart' as con;
+import 'package:primera_app_8_9/utils/singleton.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -34,6 +35,7 @@ class _HomeState extends State<Home> {
             child: SingleChildScrollView(
               child:Column(
                 children: [
+                  Text(singleton.userName),
                   Container(
                     ///MediaQuery.of(context).size.height * 0.5 = /2 -> 50%
                     ///MediaQuery.of(context).size.height * 0.25 = /4 -> 25%

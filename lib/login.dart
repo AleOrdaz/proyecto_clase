@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:primera_app_8_9/home.dart';
+import 'package:primera_app_8_9/utils/singleton.dart';
 
 ///Clase de creación de widgets con cambios de estado
 class Login extends StatefulWidget {
@@ -13,6 +14,7 @@ class _LoginState extends State<Login> {
   ///Variables para capturar el valor que escriba el usuario en los inputs
   TextEditingController user = TextEditingController();
   final pass = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,10 @@ class _LoginState extends State<Login> {
                 ///el espacio que ocupan sus hijos widgets
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Image.asset('imagenes/Untitled.png',
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    alignment: Alignment.topLeft,
+                  ),
                   const Text(
                     'LOGIN',
                     style: TextStyle(
@@ -113,7 +119,7 @@ class _LoginState extends State<Login> {
                           if(user.text == "USER01" && pass.text == "PASS01"){
                             print('Ingreso correctamente');
                             showSnackBar('Ingreso correctamente', 10);
-
+                            singleton.userName = 'Alejandro Ordaz';
                             ///ARCHIVO DE RUTAS
                             ///"/"
                             ///"/registro" 'o "registro"
