@@ -17,10 +17,7 @@ class Singleton {
 late final Singleton singleton;
 
 
-
-
-
-
+/*
 Singleton
 SHARED PREFERENCES (PREFERENCIAS DEL USUARIO)
 5 DEPENDENCIAS
@@ -30,16 +27,4 @@ API (OPCIONAL)
 
 LOGIN Y REGISTRO
 4 VISTAS POR ALUMNO
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/

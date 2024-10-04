@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:primera_app_8_9/utils/personas.dart';
 import 'package:primera_app_8_9/utils/constants.dart' as con;
 import 'package:primera_app_8_9/utils/singleton.dart';
 
@@ -10,14 +11,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late List lista;
+  late List lista = [];
+  int count = 0;
+
+  final _nombreController = TextEditingController();
+  final _apellidosController = TextEditingController();
+  final _edadController = TextEditingController();
+  final _direccionController = TextEditingController();
+  final _imagenController = TextEditingController();
 
   @override
   ///Cada inicie la vista carga/actualiza las variables
   ///primera acción antes de cargar toda la vista
   void initState() {
     //lista = con.lista; ///Lista inmutable o de tipo que no permita tener cambios
-    lista = List.from(con.lista); // Crea una copia mutable de la lista original
+    //lista = List.from(con.lista); // Crea una copia mutable de la lista original
     // TODO: implement initState
     super.initState();
   }
@@ -35,8 +43,8 @@ class _HomeState extends State<Home> {
             child: SingleChildScrollView(
               child:Column(
                 children: [
-                  Text(singleton.userName),
-                  Container(
+                  //Text(singleton.userName),
+                   lista.length > 0 ? Container(
                     ///MediaQuery.of(context).size.height * 0.5 = /2 -> 50%
                     ///MediaQuery.of(context).size.height * 0.25 = /4 -> 25%
                     height: size.height, ///100%
@@ -51,7 +59,37 @@ class _HomeState extends State<Home> {
                         var datos = lista[index].toString().split('#'); ///$ - no usar
                         print('ID: ${datos[0]}');
 
-                        return datos[5] == '1' ? createCard(
+                        return Row(
+                          children: [
+                            Expanded(
+                              flex: 6,
+                              child: int.parse(datos[5]) % 2 == 0 ?
+                              createCard(
+                                txtNegritas: datos[1],
+                                txtNormal1: datos[2],
+                                txtNormal2: datos[3],
+                                numero: datos[4],
+                                id: datos[0],
+                                ///int i = 0;
+                                ///i.toString();
+                              ) : Container(),
+                            ),
+                            Expanded(
+                              flex:6,
+                              child: int.parse(datos[5]) % 2 != 0 ?
+                              createCard(
+                                txtNegritas: datos[1],
+                                txtNormal1: datos[2],
+                                txtNormal2: datos[3],
+                                numero: datos[4],
+                                id: datos[0],
+                                ///int i = 0;
+                                ///i.toString();
+                              ) : Container(),
+                            )
+                          ],
+                        );
+                          int.parse(datos[5]) % 2 == 0 ? createCard(
                           txtNegritas: datos[1],
                           txtNormal1: datos[2],
                           txtNormal2: datos[3],
@@ -62,13 +100,89 @@ class _HomeState extends State<Home> {
                         ) : createdCard2(datos[1],datos[2], int.parse(datos[0]));
                       },
                     ),
-                  ),
+                  ) : Container(),
                 ],
               ),
             ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        ///Colores con RGBO (red, green, blue, opacidad)
+        backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
+        tooltip: 'Increment', ///Etiqueta unica (solo se usa si hay más de un btn)
+        onPressed: (){
+          setState(() {
+            showDialogForm(context, '');
+            count = count + 1;
+            //lista.add('$count#Texto $count#Texto $count#Texto $count#$count#$count');
+          });
+        },
+        child: const Icon(Icons.add, color: Colors.white, size: 28),
+      ),
+    );
+  }
+
+  ///Alertas
+  showDialogForm(BuildContext context, String text) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(26.0))
+            ),
+            title: const Text('Añadir un nuevo usuario',
+                style: TextStyle(color: Colors.red)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _nombreController,
+                ), TextFormField(
+                  
+                ), TextFormField()
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    /*lista.add(
+                      Persona(
+                        nombre: _nombreController.text,
+                        apellidos: _apellidosController.text,
+                        edad: _edadController.text,
+                        direccion: _direccionController.text,
+                        imagen: _imagenController.text,
+                      ),
+                    );
+
+                    // Limpiar los campos después de agregar
+                    _nombreController.clear();
+                    _apellidosController.clear();
+                    _edadController.clear();
+                    _direccionController.clear();
+                    _imagenController.clear();*/
+                    lista.add('${_nombreController.text}#Texto $count#Texto $count#Texto $count#$count#$count');
+
+                    Navigator.of(context).pop(true);
+                  });
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blueGrey,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  ' Agregar ', style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          );
+        }
     );
   }
 
@@ -154,19 +268,49 @@ class createCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(15.0),
+      margin: EdgeInsets.only(bottom: 20.0),
       ///color: Colors.grey, /// -------------------------------------->  Estos dos atributos
       decoration: BoxDecoration(      ///                                juntos, marcará un error por
         borderRadius: BorderRadius.circular(40),    ///                  incompatibilidad de atributos
         color: Colors.black54, /// ------------------------------------>
       ),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            flex: 8,
-            child: Text(txtNegritas),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: CircleAvatar(
+              backgroundColor: Colors.black,
+              backgroundImage: NetworkImage('https://domain.net/saintseiya/images/some.jpg'),
+              radius: 50,
+            ),
+          ),
+          Text(txtNegritas),
+          Text(txtNormal1),
+          Text(txtNormal2),
+          Row(
+            children: [
+              Icon(Icons.edit),
+              Icon(Icons.delete),
+            ],
+          )
+        ],
+      )
+      /*Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Expanded(
+            flex: 6,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: CircleAvatar(
+                backgroundColor: Colors.black,
+                backgroundImage: NetworkImage('https://domain.net/saintseiya/images/some.jpg'),
+                radius: 50,
+              ),
+            ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             ///Convertir cualquier widget con acción de boton
             child: InkWell(
               onTap: () {
@@ -176,11 +320,11 @@ class createCard extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex:2,
+            flex:3,
             child: Icon(Icons.delete),
           ),
         ],
-      ),
+      ),*/
     );
   }
 }
