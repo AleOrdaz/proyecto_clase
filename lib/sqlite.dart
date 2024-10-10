@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:primera_app_8_9/utils/db.dart';
+import 'package:primera_app_8_9/widgets/drawer.dart';
 
 class Sqlite extends StatefulWidget {
   const Sqlite({super.key});
@@ -128,71 +129,7 @@ class _SqliteState extends State<Sqlite> {
           'Sqlite CRUD', style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
-      drawer: Drawer(
-        elevation: 10,
-        width: size.width * 0.65,
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('MI PRIMERA APLICACIÓN'),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        radius: 40,
-                        child: Text(
-                          '1', style: TextStyle(color: Colors.white, fontSize: 28),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-            ),
-            ListTile(
-              title: const Text('Home'),
-              leading: const Icon(Icons.home),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('SQLite'),
-              leading: const Icon(Icons.dataset_linked),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Mapa'),
-              leading: const Icon(Icons.map),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            SizedBox(height: size.height * 0.45,),
-            const Divider(),
-            ListTile(
-              title: const Text('Cerrar Sesión'),
-              leading: const Icon(Icons.exit_to_app),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: appDrawer(size: size),
       body: _isLoading ? const Center(
         child: CircularProgressIndicator(),
       ) : myData.isEmpty ? const Center(
