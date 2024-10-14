@@ -48,6 +48,13 @@ class _ApiState extends State<Api> {
       data = await colores.getColores();
       if(data['estatus'] == 200) {
         respuestaJson = data;
+        /*print(data); //json completo
+        print(data['estatus']);
+        print(data['respuesta']);
+        print(data['respuesta']['total_colores']);
+        for (int i = 0; i < total_colores; i++){
+          print(data['respuesta']['colores'][i]);
+        }*/
       } else {
         print('Lista vacia');
         respuestaJson = data;

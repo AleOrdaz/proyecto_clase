@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:primera_app_8_9/api.dart';
+import 'package:primera_app_8_9/home.dart';
+import 'package:primera_app_8_9/mapa.dart';
 import 'package:primera_app_8_9/sqlite.dart';
 
 class appDrawer extends StatelessWidget {
@@ -44,32 +46,32 @@ class appDrawer extends StatelessWidget {
             title: const Text('Home'),
             leading: const Icon(Icons.home),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const Home()));
             },
           ),
           ListTile(
             title: const Text('SQLite'),
             leading: const Icon(Icons.dataset_linked),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const Sqlite()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const Sqlite()));
             },
           ),
           ListTile(
             title: const Text('Apis'),
             leading: const Icon(Icons.api),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const Api()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const Api()));
             },
           ),
           ListTile(
             title: const Text('Mapa'),
             leading: const Icon(Icons.map),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const Mapa()));
             },
           ),
           SizedBox(height: size.height * 0.45,),
