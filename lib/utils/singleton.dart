@@ -13,6 +13,9 @@ class Singleton {
 
 
   String userName = '';
+  double latitud = 0.0;
+  double longitud = 0.0;
+  String direccion = '';
 }
 late final Singleton singleton;
 
