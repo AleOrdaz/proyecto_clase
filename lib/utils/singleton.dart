@@ -13,9 +13,17 @@ class Singleton {
 
 
   String userName = '';
+
+  ///Variables para la geolocalización en el mapa
   double latitud = 0.0;
   double longitud = 0.0;
   String direccion = '';
+
+  ///Variables para el login
+  bool loader = false;
+  bool login = false;
+  String user = '';
+  String pass = '';
 }
 late final Singleton singleton;
 
