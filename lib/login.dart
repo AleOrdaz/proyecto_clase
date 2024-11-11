@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:primera_app_8_9/home.dart';
+import 'package:primera_app_8_9/utils/auth.dart';
 import 'package:primera_app_8_9/utils/singleton.dart';
 import 'package:primera_app_8_9/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +15,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final AuthService _firebaseAuthService = AuthService();
+
+  Singleton singleton = Singleton();
   ///Variables para capturar el valor que escriba el usuario en los inputs
   TextEditingController user = TextEditingController();
   final pass = TextEditingController();
@@ -138,6 +143,21 @@ class _LoginState extends State<Login> {
 
                           //SOLO DE INGRESAR CON EL USUARIO USER01 Y PASS01
                           if(user.text == "USER01" && pass.text == "PASS01"){
+                            ///Firebase auth
+                            ///NOTA IMPORTANTE:
+                            ///En su Firebase Console, deben de buscar y agregar las opción de Autenticación
+                            ///por defecto correo y contraseña o seleccionar cualquier otro metodo
+                            ///de inicio de sesión (Facebook, Gmail, etc...).
+                            ///Se tiene que enviar usuario (email) y contraseña
+                            _firebaseAuthService.createUserWithEmailAndPassword(user.text,  pass.text).then((User? user) {
+                              if (user != null) {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context)=> const Home()));
+                              } else {
+                                showSnackBar('Ocurrió un error durante la creación de la cuenta', 20);
+                              }
+                            });
+
                             print('Ingreso correctamente');
                             showSnackBar('Ingreso correctamente', 10);
                             singleton.userName = 'Alejandro Ordaz';
@@ -145,6 +165,11 @@ class _LoginState extends State<Login> {
                             sharedPreferences.setBool('islogin', true);
                             sharedPreferences.setString('user', user.text);
                             sharedPreferences.setString('pass', pass.text);
+
+                            sharedPreferences.setBool('islogin', false);
+                            sharedPreferences.setString('user', '');
+                            sharedPreferences.setString('pass', '');
+                            //limpiar singleton
                             ///ARCHIVO DE RUTAS
                             ///"/"
                             ///"/registro" 'o "registro"
